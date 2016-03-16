@@ -14,7 +14,10 @@ using namespace std;
 #include <iostream>
 #include <stdlib.h>
 #include <unistd.h>
-
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
+#include <sys/wait.h>
 //------------------------------------------------------ Include personnel
 #include "GestionClavier.h"
 #include "Menu.h"
@@ -30,49 +33,34 @@ using namespace std;
 //-------------------------------------------------------- Fonctions amies
 
 //----------------------------------------------------- Méthodes publiques
-pid_t processusMenu;
 
-void GestionClavier::GestionClavier()
+void GestionClavier()
 // Algorithme :
 //
 {
 	
-	
-	if( ( proceMenu=fork() ) == 0 )
-	{
+	for(;;){
 		Menu();
-	}
 	
-	else 
-	{
-		for(;;)
-		{
-			pause();
-		}
 	}
 	
 	
 } //----- Fin de Méthode
 
-void GestionClavier::Commande(char code, unsigned int valeur)
+void Commande(char code, unsigned int valeur)
 // Algorithme :
 //
 {
 	switch(code)
 	{
-		case(e):
-			terminerTache();
-		break;
+		case 'E':
+			exit(0);
+			break;
 	}
 	
 } //----- Fin de Méthode
 
 
-void terminerTache()
-{
-	kill(processusMenu, SIGUSR2);
-	exit(0);
-}
 
 
 
