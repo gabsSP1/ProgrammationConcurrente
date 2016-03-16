@@ -1,15 +1,15 @@
 /*************************************************************************
                            GestionClavier  -  description
                              -------------------
-    début                : ${date}
+    dÃ©but                : ${date}
     copyright            : (C) ${year} par ${user}
 *************************************************************************/
 
-//---------- Réalisation de GestionClavier (fichier GestionClavier.cpp) --
+//---------- RÃ©alisation de GestionClavier (fichier GestionClavier.cpp) --
 
 //---------------------------------------------------------------- INCLUDE
 
-//-------------------------------------------------------- Include système
+//-------------------------------------------------------- Include systÃ¨me
 using namespace std;
 #include <iostream>
 #include <stdlib.h>
@@ -23,18 +23,20 @@ using namespace std;
 
 //---------------------------------------------------- Variables de classe
 
-//----------------------------------------------------------- Types privés
+//----------------------------------------------------------- Types privÃ©s
 
 
 //----------------------------------------------------------------- PUBLIC
 //-------------------------------------------------------- Fonctions amies
 
-//----------------------------------------------------- Méthodes publiques
+//----------------------------------------------------- MÃ©thodes publiques
+pid_t processusMenu;
+
 void GestionClavier::GestionClavier()
 // Algorithme :
 //
 {
-	pid_t proceMenu;
+	
 	
 	if( ( proceMenu=fork() ) == 0 )
 	{
@@ -50,7 +52,7 @@ void GestionClavier::GestionClavier()
 	}
 	
 	
-} //----- Fin de Méthode
+} //----- Fin de MÃ©thode
 
 void GestionClavier::Commande(char code, unsigned int valeur)
 // Algorithme :
@@ -59,17 +61,24 @@ void GestionClavier::Commande(char code, unsigned int valeur)
 	switch(code)
 	{
 		case(e):
-			exit(0);
+			terminerTache();
 		break;
 	}
 	
-} //----- Fin de Méthode
+} //----- Fin de MÃ©thode
 
+
+void terminerTache()
+{
+	kill(processusMenu, SIGUSR2);
+	exit(0);
+}
 
 
 
 //------------------------------------------------------------------ PRIVE
 
-//----------------------------------------------------- Méthodes protégées
+//----------------------------------------------------- MÃ©thodes protÃ©gÃ©es
 
-//------------------------------------------------------- Méthodes privées
+//------------------------------------------------------- MÃ©thodes privÃ©es
+
