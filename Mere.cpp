@@ -18,11 +18,12 @@ using namespace std;
 #include <unistd.h>
 //------------------------------------------------------ Include personnel
 #include "Mere.h"
+#include "GestionClavier.h"
 #include <Outils.h>
 //------------------------------------------------------------- Constantes
 
 //----------------------------------------------------------- Prototypes prives
-
+static void Moteur(pid_t pidClavier);
 
 //----------------------------------------------------------------- PUBLIC
 
@@ -39,7 +40,17 @@ int main()
 	//INIT
 	InitialiserApplication(XTERM);
 	//MOTEUR
-	sleep(10);
+	pid_t pidClavier;
+	
+	if( (pidClavier = fork() ) == 0)
+	//Clavier
+	{
+		GestionClavier();
+	}
+	else
+	{
+		Moteur(pidClavier);
+	}
 	
 	//DESTR
 	TerminerApplication(false);
@@ -49,3 +60,7 @@ int main()
 
 //------------------------------------------------------------------ PRIVE
 
+static void Moteur(pid_t pidClavier){
+	waitpid(pidClavier,NULL,0);
+	
+}
