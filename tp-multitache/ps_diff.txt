@@ -1,0 +1,24 @@
+118c118
+< sbellet+   563  0.7  6.6 1735800 260492 ?      Sl   15:34   1:28 /usr/bin/gnome-shell
+---
+> sbellet+   563  0.7  6.6 1736568 260492 ?      Sl   15:34   1:28 /usr/bin/gnome-shell
+164c164
+< sbellet+  1647  0.2  1.3 1499200 54368 ?       Sl   15:43   0:28 nautilus --new-window
+---
+> sbellet+  1647  0.2  1.3 1499200 54372 ?       Sl   15:43   0:29 nautilus --new-window
+168c168
+< sbellet+  2122  0.0  0.9 702560 36992 ?        Sl   15:56   0:08 /usr/libexec/gnome-terminal-server
+---
+> sbellet+  2122  0.0  0.9 702560 37004 ?        Sl   15:56   0:08 /usr/libexec/gnome-terminal-server
+232c232
+< sbellet+  6425  0.1  0.2 693492 11652 ?        SNl  18:40   0:00 /usr/libexec/tracker-extract
+---
+> sbellet+  6425  0.0  0.2 693492 11652 ?        SNl  18:40   0:00 /usr/libexec/tracker-extract
+234c234
+< sbellet+  6454  0.0  0.0 132096  2852 pts/6    R+   18:40   0:00 ps -waux
+---
+> sbellet+  6461  0.0  0.0 132096  2852 pts/6    R+   18:40   0:00 ps -waux
+246c246
+< root     32553  0.9  1.0 240828 40264 tty2     Ss+  15:33   1:43 /usr/bin/Xorg :1 -background none -verbose -auth /run/gdm/auth-for-gdm-egekNl/database -seat seat0 -nolisten tcp
+---
+> root     32553  0.9  1.0 243624 40264 tty2     Ss+  15:33   1:43 /usr/bin/Xorg :1 -background none -verbose -auth /run/gdm/auth-for-gdm-egekNl/database -seat seat0 -nolisten tcp

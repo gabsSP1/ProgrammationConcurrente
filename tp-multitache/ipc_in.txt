@@ -1,0 +1,28 @@
+
+------ Files de messages --------
+clef       msqid      propriétaire perms      octets utilisés messages    
+
+------ Segment de mémoire partagée --------
+clef       shmid      propriétaire perms      octets     nattch     états      
+0x00000000 65536      nstancioiu 600        524288     2          dest         
+0x00000000 131073     nstancioiu 600        1048576    2          dest         
+0x00000000 229378     nstancioiu 600        4194304    2          dest         
+0x00000000 2949123    sbelletier 600        393216     2          dest         
+0x00000000 425988     nstancioiu 600        524288     2          dest         
+0x00000000 458757     nstancioiu 600        4194304    2          dest         
+0x00000000 491526     nstancioiu 600        393216     2          dest         
+0x00000000 589831     nstancioiu 600        524288     2          dest         
+0x00000000 622600     nstancioiu 600        2097152    2          dest         
+0x00000000 3112969    sbelletier 600        2097152    2          dest         
+0x00000000 3145738    sbelletier 600        524288     2          dest         
+0x00000000 6946827    sbelletier 600        524288     2          dest         
+0x00000000 3440652    sbelletier 600        1048576    2          dest         
+0x00000000 6979597    sbelletier 600        4194304    2          dest         
+0x00000000 4227087    sbelletier 600        4194304    2          dest         
+0x00000000 3866640    sbelletier 600        393216     2          dest         
+0x00000000 4030481    sbelletier 600        393216     2          dest         
+0x00000000 4128787    sbelletier 600        33554432   2          dest         
+
+------ Tableaux de sémaphores --------
+clef       semid      propriétaire perms      nsems     
+

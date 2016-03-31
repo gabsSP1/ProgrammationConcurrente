@@ -1,0 +1,253 @@
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.1  49952  5264 ?        Ss   mars22   0:05 /usr/lib/systemd/systemd --switched-root --system --deserialize 23
+root         2  0.0  0.0      0     0 ?        S    mars22   0:00 [kthreadd]
+root         3  0.0  0.0      0     0 ?        S    mars22   0:00 [ksoftirqd/0]
+root         5  0.0  0.0      0     0 ?        S<   mars22   0:00 [kworker/0:0H]
+root         7  0.0  0.0      0     0 ?        S    mars22   0:36 [rcu_sched]
+root         8  0.0  0.0      0     0 ?        S    mars22   0:00 [rcu_bh]
+root         9  0.0  0.0      0     0 ?        S    mars22   0:15 [rcuos/0]
+root        10  0.0  0.0      0     0 ?        S    mars22   0:00 [rcuob/0]
+root        11  0.0  0.0      0     0 ?        S    mars22   0:00 [migration/0]
+root        12  0.0  0.0      0     0 ?        S    mars22   0:02 [watchdog/0]
+root        13  0.0  0.0      0     0 ?        S    mars22   0:02 [watchdog/1]
+root        14  0.0  0.0      0     0 ?        S    mars22   0:00 [migration/1]
+root        15  0.0  0.0      0     0 ?        S    mars22   0:00 [ksoftirqd/1]
+root        17  0.0  0.0      0     0 ?        S<   mars22   0:00 [kworker/1:0H]
+root        18  0.0  0.0      0     0 ?        S    mars22   0:07 [rcuos/1]
+root        19  0.0  0.0      0     0 ?        S    mars22   0:00 [rcuob/1]
+root        20  0.0  0.0      0     0 ?        S    mars22   0:01 [watchdog/2]
+root        21  0.0  0.0      0     0 ?        S    mars22   0:00 [migration/2]
+root        22  0.0  0.0      0     0 ?        S    mars22   0:00 [ksoftirqd/2]
+root        24  0.0  0.0      0     0 ?        S<   mars22   0:00 [kworker/2:0H]
+root        25  0.0  0.0      0     0 ?        S    mars22   0:27 [rcuos/2]
+root        26  0.0  0.0      0     0 ?        S    mars22   0:00 [rcuob/2]
+root        27  0.0  0.0      0     0 ?        S    mars22   0:01 [watchdog/3]
+root        28  0.0  0.0      0     0 ?        S    mars22   0:00 [migration/3]
+root        29  0.0  0.0      0     0 ?        S    mars22   0:00 [ksoftirqd/3]
+root        31  0.0  0.0      0     0 ?        S<   mars22   0:00 [kworker/3:0H]
+root        32  0.0  0.0      0     0 ?        S    mars22   0:15 [rcuos/3]
+root        33  0.0  0.0      0     0 ?        S    mars22   0:00 [rcuob/3]
+root        34  0.0  0.0      0     0 ?        S<   mars22   0:00 [khelper]
+root        35  0.0  0.0      0     0 ?        S    mars22   0:00 [kdevtmpfs]
+root        36  0.0  0.0      0     0 ?        S<   mars22   0:00 [netns]
+root        37  0.0  0.0      0     0 ?        S<   mars22   0:00 [perf]
+root        38  0.0  0.0      0     0 ?        S<   mars22   0:00 [writeback]
+root        39  0.0  0.0      0     0 ?        SN   mars22   0:00 [ksmd]
+root        40  0.0  0.0      0     0 ?        SN   mars22   0:00 [khugepaged]
+root        41  0.0  0.0      0     0 ?        S<   mars22   0:00 [crypto]
+root        42  0.0  0.0      0     0 ?        S<   mars22   0:00 [kintegrityd]
+root        43  0.0  0.0      0     0 ?        S<   mars22   0:00 [bioset]
+root        44  0.0  0.0      0     0 ?        S<   mars22   0:00 [kblockd]
+root        45  0.0  0.0      0     0 ?        S<   mars22   0:00 [ata_sff]
+root        46  0.0  0.0      0     0 ?        S<   mars22   0:00 [md]
+root        47  0.0  0.0      0     0 ?        S<   mars22   0:00 [devfreq_wq]
+root        75  0.0  0.0      0     0 ?        S    mars22   0:00 [kswapd0]
+root        76  0.0  0.0      0     0 ?        S    mars22   0:00 [fsnotify_mark]
+root        86  0.0  0.0      0     0 ?        S<   mars22   0:00 [kthrotld]
+root        87  0.0  0.0      0     0 ?        S<   mars22   0:00 [acpi_thermal_pm]
+root        88  0.0  0.0      0     0 ?        S    mars22   0:00 [scsi_eh_0]
+root        89  0.0  0.0      0     0 ?        S<   mars22   0:00 [scsi_tmf_0]
+root        90  0.0  0.0      0     0 ?        S    mars22   0:00 [scsi_eh_1]
+root        91  0.0  0.0      0     0 ?        S<   mars22   0:00 [scsi_tmf_1]
+root        92  0.0  0.0      0     0 ?        S    mars22   0:00 [scsi_eh_2]
+root        93  0.0  0.0      0     0 ?        S<   mars22   0:00 [scsi_tmf_2]
+root        94  0.0  0.0      0     0 ?        S    mars22   0:00 [scsi_eh_3]
+root        95  0.0  0.0      0     0 ?        S<   mars22   0:00 [scsi_tmf_3]
+root        96  0.0  0.0      0     0 ?        S    mars22   0:00 [scsi_eh_4]
+root        97  0.0  0.0      0     0 ?        S<   mars22   0:00 [scsi_tmf_4]
+root        98  0.0  0.0      0     0 ?        S    mars22   0:00 [scsi_eh_5]
+root        99  0.0  0.0      0     0 ?        S<   mars22   0:00 [scsi_tmf_5]
+root       105  0.0  0.0      0     0 ?        S<   mars22   0:00 [kpsmoused]
+root       107  0.0  0.0      0     0 ?        S<   mars22   0:00 [dm_bufio_cache]
+root       108  0.0  0.0      0     0 ?        S<   mars22   0:00 [ipv6_addrconf]
+root       109  0.0  0.0      0     0 ?        S<   mars22   0:00 [deferwq]
+root       140  0.0  0.0      0     0 ?        S    mars22   0:00 [kauditd]
+root       228  0.0  0.0      0     0 ?        S<   mars22   0:04 [kworker/0:1H]
+root       229  0.0  0.0      0     0 ?        S<   mars22   0:00 [kworker/1:1H]
+root       231  0.0  0.0      0     0 ?        S<   mars22   0:00 [kworker/2:1H]
+root       236  0.0  0.0      0     0 ?        S<   mars22   0:00 [kworker/3:1H]
+root       249  0.0  0.0      0     0 ?        S    mars22   0:02 [jbd2/sda2-8]
+root       250  0.0  0.0      0     0 ?        S<   mars22   0:00 [ext4-rsv-conver]
+root       301  0.0  1.0 116880 39472 ?        Ss   mars22   0:08 /usr/lib/systemd/systemd-journald
+sbellet+   317  0.0  0.1 314156  6672 ?        Sl   15:34   0:00 /usr/libexec/gvfsd
+sbellet+   322  0.0  0.1 361948  6364 ?        Sl   15:34   0:00 /usr/libexec//gvfsd-fuse /run/user/44837/gvfs -f -o big_writes
+root       328  0.0  0.0  43572  3604 ?        Ss   mars22   0:00 /usr/lib/systemd/systemd-udevd
+root       358  0.0  0.0      0     0 ?        S<   mars22   0:00 [edac-poller]
+root       361  0.0  0.0      0     0 ?        S    mars22   0:00 [irq/27-mei_me]
+root       364  0.0  0.0      0     0 ?        S<   mars22   0:00 [rpciod]
+root       393  0.0  0.0      0     0 ?        S<   mars22   0:00 [hd-audio0]
+root       417  0.0  0.0      0     0 ?        S    mars22   0:00 [jbd2/sda3-8]
+root       418  0.0  0.0      0     0 ?        S<   mars22   0:00 [ext4-rsv-conver]
+root       421  0.0  0.0      0     0 ?        S    mars22   0:00 [jbd2/sda1-8]
+root       422  0.0  0.0      0     0 ?        S<   mars22   0:00 [ext4-rsv-conver]
+sbellet+   426  0.0  0.1 339924  5544 ?        Sl   15:34   0:00 /usr/libexec/at-spi-bus-launcher
+root       427  0.0  0.0      0     0 ?        S    mars22   0:00 [jbd2/sda5-8]
+root       428  0.0  0.0      0     0 ?        S<   mars22   0:00 [ext4-rsv-conver]
+sbellet+   432  0.0  0.0  41616  3208 ?        S    15:34   0:00 /bin/dbus-daemon --config-file=/etc/at-spi2/accessibility.conf --nofork --print-address 3
+root       434  0.0  0.0  51168  3192 ?        S<sl mars22   0:01 /sbin/auditd -n
+sbellet+   436  0.0  0.1 129616  5124 ?        Sl   15:34   0:00 /usr/libexec/at-spi2-registryd --use-gnome-session
+sbellet+   443  0.0  1.0 1252944 40684 ?       Sl   15:34   0:00 /usr/libexec/gnome-settings-daemon
+root       446  0.0  0.0  16776  2596 ?        SNs  mars22   0:00 /usr/sbin/alsactl -s -n 19 -c -E ALSA_CONFIG_PATH=/etc/alsa/alsactl.conf --initfile=/lib/alsa/init/00main rdaemon
+rtkit      448  0.0  0.0 164620  2244 ?        SNsl mars22   0:08 /usr/libexec/rtkit-daemon
+root       449  0.0  0.2 379128  8088 ?        Ssl  mars22   0:10 /usr/libexec/accounts-daemon
+root       450  0.0  1.2 255500 49016 ?        Ssl  mars22   0:23 /usr/bin/ruby-mri /usr/bin/puppet agent  --no-daemonize
+root       453  0.0  0.1 326548  7472 ?        Ssl  mars22   0:00 /usr/sbin/ModemManager
+root       455  0.0  0.0   4364  1328 ?        Ss   mars22   0:31 /sbin/rngd -f
+root       465  0.0  0.0  19140  2576 ?        Ss   mars22   0:36 /usr/sbin/irqbalance --foreground
+root       467  0.0  5.3 5796724 209160 ?      Ssl  mars22   0:51 /sbin/rsyslogd -n
+rpc        471  0.0  0.0  44068  2292 ?        Ss   mars22   0:00 /sbin/rpcbind -w
+sbellet+   474  0.0  0.2 495272 10860 ?        S<l  15:34   0:00 /usr/bin/pulseaudio --start
+root       476  0.0  0.0  26564  3868 ?        Ss   mars22   0:00 /usr/sbin/smartd -n -q never
+avahi      477  0.0  0.0  30160  2820 ?        Ss   mars22   0:01 avahi-daemon: running [if501-219-15.local]
+root       479  0.0  0.2 212100  8688 ?        Ss   mars22   0:00 /usr/sbin/abrtd -d -s
+dbus       481  0.0  0.2  47556  8624 ?        Ss   mars22   0:19 /bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation
+avahi      482  0.0  0.0  30036   216 ?        S    mars22   0:00 avahi-daemon: chroot helper
+root       483  0.0  0.0  28580  3628 ?        Ss   mars22   0:00 /usr/sbin/oddjobd -n -p /var/run/oddjobd.pid -t 300
+sbellet+   485  0.0  0.2 414432  8752 ?        Sl   15:34   0:00 /usr/libexec/gvfs-udisks2-volume-monitor
+sbellet+   492  0.0  0.1 315524  6236 ?        Sl   15:34   0:00 /usr/libexec/gvfs-mtp-volume-monitor
+sbellet+   497  0.0  0.1 324612  6700 ?        Sl   15:34   0:00 /usr/libexec/gvfs-gphoto2-volume-monitor
+root       498  0.0  0.1  82832  5736 ?        Ss   mars22   0:00 /usr/sbin/sshd -D
+sbellet+   502  0.0  0.2 440780 10280 ?        Sl   15:34   0:00 /usr/libexec/gvfs-afc-volume-monitor
+sbellet+   508  0.0  0.1 309508  6512 ?        Sl   15:34   0:00 /usr/libexec/gvfs-goa-volume-monitor
+sbellet+   511  0.0  0.4 638752 17964 ?        Sl   15:34   0:00 /usr/libexec/goa-daemon
+sbellet+   517  0.0  0.2 385680 10900 ?        Sl   15:34   0:00 /usr/libexec/mission-control-5
+root       518  0.0  0.0   6996  1796 ?        Ss   mars22   0:00 /usr/sbin/mcelog --ignorenodev --daemon --foreground
+polkitd    523  0.0  0.3 529648 14572 ?        Ssl  mars22   0:03 /usr/lib/polkit-1/polkitd --no-debug
+sbellet+   535  0.0  0.1 180600  4616 ?        Sl   15:34   0:00 /usr/libexec/dconf-service
+rpcuser    556  0.0  0.0  48656  3440 ?        Ss   mars22   0:00 /sbin/rpc.statd
+sbellet+   563  0.7  6.6 1736568 260492 ?      Sl   15:34   1:28 /usr/bin/gnome-shell
+sbellet+   567  0.0  0.2 514124  9780 ?        Sl   15:34   0:00 /usr/libexec/gsd-printer
+sbellet+   588  0.0  0.2 480412  9776 ?        Sl   15:34   0:00 /usr/bin/ibus-daemon --replace --xim --panel disable
+sbellet+   592  0.0  0.1 393952  7436 ?        Sl   15:34   0:00 /usr/libexec/ibus-dconf
+sbellet+   594  0.0  0.3 438344 15512 ?        Sl   15:34   0:00 /usr/libexec/ibus-x11 --kill-daemon
+sbellet+   607  0.0  0.6 785332 25336 ?        Sl   15:34   0:00 /usr/libexec/gnome-shell-calendar-server
+sbellet+   613  0.0  0.6 1111176 26876 ?       Sl   15:34   0:00 /usr/libexec/evolution-source-registry
+sbellet+   640  0.0  0.8 888800 33420 ?        Sl   15:34   0:00 /usr/libexec/evolution/3.10/evolution-alarm-notify
+root       642  0.0  0.1 239268  6216 ?        Ss   mars22   0:29 /usr/sbin/sssd -D -f
+root       646  0.0  0.6 396212 26476 ?        S    mars22   1:16 /usr/libexec/sssd/sssd_be --domain default --debug-to-files
+root       650  0.0  0.5 240952 23200 ?        S    mars22   1:13 /usr/libexec/sssd/sssd_nss --debug-to-files
+root       651  0.0  0.1 229716  5912 ?        S    mars22   0:08 /usr/libexec/sssd/sssd_pam --debug-to-files
+root       652  0.0  0.1 225228  5992 ?        S    mars22   0:08 /usr/libexec/sssd/sssd_autofs --debug-to-files
+sbellet+   653  0.0  0.4 892012 15736 ?        SNl  15:34   0:00 /usr/libexec/tracker-miner-fs
+root       656  0.0  0.0  43492  3436 ?        Ss   mars22   0:03 /usr/lib/systemd/systemd-logind
+sbellet+   657  0.0  0.5 382076 22440 ?        Sl   15:34   0:00 /usr/bin/python /usr/share/system-config-printer/applet.py
+sbellet+   659  0.0  0.5 578244 22544 ?        Sl   15:34   0:03 /usr/libexec/tracker-store
+sbellet+   687  0.0  0.1 158708  5248 ?        S    15:34   0:00 /usr/libexec/gconfd-2
+sbellet+   732  0.0  1.5 1103984 60688 ?       Sl   15:34   0:00 /usr/libexec/evolution-calendar-factory
+root       759  0.0  0.3 102204 14424 ?        Ss   mars22   0:01 /sbin/dhclient -H if501-219-15 -1 -q -lf /var/lib/dhclient/dhclient-ba4b426a-76c7-4a69-a03a-7fcc126bde53-em1.lease -pf /var/run/dhclient-em1.pid em1
+sbellet+   816  0.0  0.1 239752  6376 ?        Sl   15:34   0:00 /usr/libexec/gvfsd-metadata
+root       820  0.0  0.0      0     0 ?        S<   mars22   0:00 [nfsiod]
+sbellet+   827  0.0  0.1 320284  7320 ?        Sl   15:34   0:00 /usr/libexec/ibus-engine-simple
+root       830  0.0  0.0      0     0 ?        S    mars22   0:00 [nfsv4.0-svc]
+root       836  0.0  0.0  25944  1952 ?        Ss   mars22   0:00 /usr/sbin/atd -f
+root       838  0.0  0.1 308128  6596 ?        Ssl  mars22   0:00 /usr/sbin/gdm
+root       842  0.0  0.1 465228  7344 ?        Sl   mars22   0:00 /usr/libexec/gdm-simple-slave --display-id /org/gnome/DisplayManager/Displays/_0
+root       848  0.0  0.6 192404 27164 tty1     Ss+  mars22   0:20 /usr/bin/Xorg :0 -background none -verbose -auth /run/gdm/auth-for-gdm-z4dV0j/database -seat seat0 -nolisten tcp vt1
+root       863  0.0  0.3 384088 12108 ?        Sl   mars29   0:00 gdm-session-worker [pam/gdm-password]
+root       867  0.0  0.0      0     0 ?        Z    mars29   0:00 [gdm-session-wor] <defunct>
+sbellet+   868  0.0  0.1 387888  5576 ?        Sl   15:34   0:00 /usr/libexec/gvfsd-burn --spawner :1.3 /org/gtk/gvfs/exec_spaw/0
+sbellet+   876  3.9  8.1 1465820 321044 ?      Sl   15:34   7:16 /usr/lib64/firefox/firefox
+root       882  0.0  0.0 110008  1676 tty3     Ss+  mars29   0:00 /sbin/agetty --noclear tty3
+root       883  0.0  0.0 110008  1676 tty4     Ss+  mars29   0:00 /sbin/agetty --noclear tty4
+gdm        968  0.0  0.1  44576  4272 ?        Ss   mars22   0:00 /usr/lib/systemd/systemd --user
+gdm        969  0.0  0.0  77320  1148 ?        S    mars22   0:00 (sd-pam)
+root      1024  0.0  0.0 135088  3340 ?        Ss   mars22   0:03 /usr/sbin/crond -n
+chrony    1027  0.0  0.0  98580  3120 ?        S    mars22   0:01 /usr/sbin/chronyd
+root      1072  0.0  0.2 444256 11684 ?        Ssl  mars22   0:02 /usr/libexec/upowerd
+colord    1093  0.0  0.2 403840  9456 ?        Ssl  mars22   0:00 /usr/libexec/colord
+root      1095  0.0  0.0 177620  2704 ?        Ssl  mars22   0:00 /usr/sbin/pcscd --foreground --auto-exit
+root      1168  0.0  0.1 401600  7012 ?        Ssl  mars22   0:25 /opt/dell/kace/bin/AMPAgent --daemon
+root      1422  0.0  0.1  44584  4204 ?        Ss   mars22   0:00 /usr/lib/systemd/systemd --user
+root      1424  0.0  0.0  77320  1432 ?        S    mars22   0:00 (sd-pam)
+root      1508  0.0  0.3 384080 12340 ?        Sl   mars29   0:00 gdm-session-worker [pam/gdm-password]
+sbellet+  1609  0.0  0.1 470508  7428 ?        Sl   15:43   0:00 /usr/libexec/gvfsd-trash --spawner :1.3 /org/gtk/gvfs/exec_spaw/1
+sbellet+  1647  0.2  1.3 1499200 54372 ?       Sl   15:43   0:29 nautilus --new-window
+sbellet+  1902  0.7  2.0 1185668 80772 ?       Sl   15:49   1:17 geany /home/sbelletier/Documents/ProgrammationConcurrente-master/GestionClavier.cpp
+sbellet+  1909  0.0  0.0  21408  1836 ?        S    15:49   0:00 gnome-pty-helper
+sbellet+  1910  0.0  0.1 127508  4856 pts/4    Ss+  15:49   0:00 /bin/bash
+sbellet+  2122  0.0  0.9 702560 37004 ?        Sl   15:56   0:08 /usr/libexec/gnome-terminal-server
+sbellet+  2125  0.0  0.0  21408  1808 ?        S    15:56   0:00 gnome-pty-helper
+sbellet+  2126  0.0  0.1 127596  5148 pts/1    Ss+  15:56   0:00 /bin/bash
+sbellet+  2158  0.0  0.1 127596  4996 pts/2    Ss+  15:56   0:00 /bin/bash
+sbellet+  2189  0.0  0.1 127596  4888 pts/3    Ss+  15:56   0:00 /bin/bash
+ikouzmi+  2314  0.0  0.1  44584  4152 ?        Ss   mars22   0:00 /usr/lib/systemd/systemd --user
+ikouzmi+  2325  0.0  0.0  83968  1436 ?        S    mars22   0:00 (sd-pam)
+sbellet+  2516  0.0  0.1 127596  4936 pts/5    Ss+  16:14   0:00 /bin/bash
+root      3162  0.0  0.0      0     0 ?        S    16:41   0:01 [kworker/u8:0]
+root      3315  0.0  0.0      0     0 ?        S    16:50   0:00 [kworker/1:3]
+root      3942  0.0  0.0      0     0 ?        S    17:10   0:00 [kworker/0:1]
+root      5053  0.0  0.0      0     0 ?        S    18:00   0:00 [kworker/2:0]
+root      5111  0.0  0.0      0     0 ?        S    18:01   0:00 [kworker/1:0]
+root      5112  0.0  0.0      0     0 ?        S    18:01   0:00 [kworker/u8:1]
+root      5206  0.0  0.0      0     0 ?        S    18:04   0:00 [kworker/3:1]
+root      5430  0.0  0.0      0     0 ?        S    18:14   0:00 [kworker/2:2]
+root      5602  0.0  0.3 531752 13028 ?        Sl   mars25   0:01 gdm-session-worker [pam/gdm-password]
+nstanci+  5608  0.0  0.1  44584  4152 ?        Ss   mars25   0:00 /usr/lib/systemd/systemd --user
+nstanci+  5611  0.0  0.1 545668  7384 ?        Sl   mars25   0:00 /usr/bin/gnome-keyring-daemon --daemonize --login
+nstanci+  5613  0.0  0.0  83968  1476 ?        S    mars25   0:00 (sd-pam)
+nstanci+  5615  0.0  0.2 561336 11328 ?        Ssl  mars25   0:01 gnome-session
+nstanci+  5623  0.0  0.0  13936  1872 ?        S    mars25   0:00 dbus-launch --sh-syntax --exit-with-session
+nstanci+  5624  0.0  0.0  42256  2780 ?        Ss   mars25   0:00 /bin/dbus-daemon --fork --print-pid 4 --print-address 6 --session
+nstanci+  5688  0.0  0.1 314156  6616 ?        Sl   mars25   0:00 /usr/libexec/gvfsd
+nstanci+  5750  0.0  0.1 361948  6340 ?        Sl   mars25   0:00 /usr/libexec//gvfsd-fuse /run/user/36960/gvfs -f -o big_writes
+nstanci+  5795  0.0  0.1 339924  5540 ?        Sl   mars25   0:00 /usr/libexec/at-spi-bus-launcher
+nstanci+  5799  0.0  0.0  41616  3192 ?        S    mars25   0:00 /bin/dbus-daemon --config-file=/etc/at-spi2/accessibility.conf --nofork --print-address 3
+nstanci+  5802  0.0  0.1 129616  5120 ?        Sl   mars25   0:00 /usr/libexec/at-spi2-registryd --use-gnome-session
+nstanci+  5808  0.0  1.1 1191648 44776 ?       Sl   mars25   0:18 /usr/libexec/gnome-settings-daemon
+nstanci+  5827  0.0  0.2 495272 10928 ?        S<l  mars25   0:00 /usr/bin/pulseaudio --start
+nstanci+  5833  0.0  0.2 414564  8864 ?        Sl   mars25   0:02 /usr/libexec/gvfs-udisks2-volume-monitor
+root      5835  0.0  0.1 362576  7328 ?        Ssl  mars25   1:25 /usr/lib/udisks2/udisksd --no-debug
+sbellet+  5839  0.0  0.2 473160  8280 ?        Sl   18:28   0:00 /usr/libexec/gvfsd-network --spawner :1.3 /org/gtk/gvfs/exec_spaw/2
+sbellet+  5847  0.0  0.3 733772 15100 ?        Sl   18:28   0:00 /usr/libexec/gvfsd-smb-browse --spawner :1.3 /org/gtk/gvfs/exec_spaw/3
+nstanci+  5852  0.0  0.1 315524  6236 ?        Sl   mars25   0:00 /usr/libexec/gvfs-mtp-volume-monitor
+nstanci+  5857  0.0  0.1 324612  6684 ?        Sl   mars25   0:00 /usr/libexec/gvfs-gphoto2-volume-monitor
+nstanci+  5861  0.0  0.2 440780 10276 ?        Sl   mars25   0:00 /usr/libexec/gvfs-afc-volume-monitor
+sbellet+  5864  0.0  0.1 398724  6744 ?        Sl   18:28   0:00 /usr/libexec/gvfsd-dnssd --spawner :1.3 /org/gtk/gvfs/exec_spaw/4
+nstanci+  5867  0.0  0.1 309376  6168 ?        Sl   mars25   0:00 /usr/libexec/gvfs-goa-volume-monitor
+nstanci+  5870  0.0  0.4 638756 17868 ?        Sl   mars25   0:00 /usr/libexec/goa-daemon
+nstanci+  5876  0.0  0.2 385548 10900 ?        Sl   mars25   0:00 /usr/libexec/mission-control-5
+nstanci+  5899  0.0  5.8 1891240 227636 ?      Sl   mars25   0:49 /usr/bin/gnome-shell
+nstanci+  5912  0.0  0.2 514124  9772 ?        Sl   mars25   0:00 /usr/libexec/gsd-printer
+root      5913  0.0  0.0      0     0 ?        S    18:30   0:00 [kworker/3:3]
+nstanci+  5914  0.0  0.1 180600  4588 ?        Sl   mars25   0:00 /usr/libexec/dconf-service
+root      5923  0.0  0.0      0     0 ?        S    18:30   0:00 [kworker/0:0]
+nstanci+  5935  0.0  0.2 480416  9716 ?        Sl   mars25   0:04 /usr/bin/ibus-daemon --replace --xim --panel disable
+nstanci+  5937  0.0  0.6 711600 25184 ?        Sl   mars25   0:00 /usr/libexec/gnome-shell-calendar-server
+nstanci+  5941  0.0  0.1 393952  7424 ?        Sl   mars25   0:00 /usr/libexec/ibus-dconf
+nstanci+  5944  0.0  0.3 438208 15508 ?        Sl   mars25   0:00 /usr/libexec/ibus-x11 --kill-daemon
+nstanci+  5957  0.0  0.6 1373320 26604 ?       Sl   mars25   0:00 /usr/libexec/evolution-source-registry
+nstanci+  5959  0.0  0.1 320284  7340 ?        Sl   mars25   0:00 /usr/libexec/ibus-engine-simple
+nstanci+  5990  0.0  0.8 888800 33264 ?        Sl   mars25   0:00 /usr/libexec/evolution/3.10/evolution-alarm-notify
+nstanci+  6009  0.0  1.5 1169512 60568 ?       Sl   mars25   0:00 /usr/libexec/evolution-calendar-factory
+nstanci+  6041  0.0  0.3 613456 15268 ?        SNl  mars25   0:00 /usr/libexec/tracker-miner-fs
+nstanci+  6066  0.0  0.5 382072 22372 ?        Sl   mars25   0:00 /usr/bin/python /usr/share/system-config-printer/applet.py
+nstanci+  6069  0.0  0.5 578292 20360 ?        Sl   mars25   0:00 /usr/libexec/tracker-store
+nstanci+  6101  0.0  0.1 158708  5188 ?        S    mars25   0:00 /usr/libexec/gconfd-2
+root      6110  0.0  0.2 409844  8956 ?        Ssl  18:34   0:00 /usr/libexec/packagekitd
+nstanci+  6140  0.0  0.1 387888  5576 ?        Sl   mars25   0:00 /usr/libexec/gvfsd-burn --spawner :1.3 /org/gtk/gvfs/exec_spaw/0
+nstanci+  6166  0.0  0.1 239716  6384 ?        Sl   mars25   0:00 /usr/libexec/gvfsd-metadata
+sbellet+  6177  0.0  0.1 127596  4940 pts/6    Ss   18:36   0:00 /bin/bash
+sbellet+  6246  0.1  1.0 798392 40912 ?        Sl   18:36   0:00 gedit /home/sbelletier/Documents/ProgrammationConcurrente-master/tp-multitache/ps_diff.txt
+root      6420  0.0  0.0      0     0 ?        S    18:40   0:00 [kworker/1:1]
+sbellet+  6425  0.0  0.2 693492 11652 ?        SNl  18:40   0:00 /usr/libexec/tracker-extract
+sbellet+  6452  0.0  0.0 127596  3460 pts/6    S+   18:40   0:00 /bin/bash
+sbellet+  6461  0.0  0.0 132096  2852 pts/6    R+   18:40   0:00 ps -waux
+nstanci+  6586  0.0  1.1 1027344 45756 ?       Sl   mars25   0:02 nautilus --new-window
+nstanci+  6593  0.0  0.1 470516  7548 ?        Sl   mars25   0:00 /usr/libexec/gvfsd-trash --spawner :1.3 /org/gtk/gvfs/exec_spaw/1
+nstanci+  6609  0.0  0.8 698252 31756 ?        Sl   mars25   0:00 /usr/libexec/gnome-terminal-server
+nstanci+  6615  0.0  0.0  21408  1824 ?        S    mars25   0:00 gnome-pty-helper
+nstanci+  6616  0.0  0.1 127596  4984 pts/0    Ss+  mars25   0:00 bash
+nstanci+  6658  0.0  1.3 882208 52584 ?        Sl   mars25   0:01 gedit /home/nstancioiu/script.sh
+nstanci+  6668  0.0  6.1 1362088 240972 ?      Sl   mars25   5:26 /usr/lib64/firefox/firefox
+root      7821  0.0  0.3 384084 12280 ?        Sl   mars25   0:00 gdm-session-worker [pam/gdm-password]
+root     19569  0.0  0.3 384064 12180 ?        Sl   mars30   0:00 gdm-session-worker [pam/gdm-password]
+root     30489  0.0  0.3 384084 11996 ?        Sl   11:26   0:00 gdm-session-worker [pam/gdm-password]
+root     32548  0.0  0.1 465364  7228 ?        Sl   15:33   0:00 /usr/libexec/gdm-simple-slave --display-id /org/gnome/DisplayManager/Displays/_1
+root     32553  0.9  1.0 243624 40264 tty2     Ss+  15:33   1:43 /usr/bin/Xorg :1 -background none -verbose -auth /run/gdm/auth-for-gdm-egekNl/database -seat seat0 -nolisten tcp
+root     32698  0.0  0.3 384080 12768 ?        Sl   15:34   0:00 gdm-session-worker [pam/gdm-password]
+sbellet+ 32703  0.0  0.1  44580  4176 ?        Ss   15:34   0:00 /usr/lib/systemd/systemd --user
+sbellet+ 32706  0.0  0.1 545780  7424 ?        Sl   15:34   0:00 /usr/bin/gnome-keyring-daemon --daemonize --login
+sbellet+ 32708  0.0  0.0  84228  1652 ?        S    15:34   0:00 (sd-pam)
+sbellet+ 32711  0.0  0.2 645900 11612 ?        Ssl  15:34   0:00 gnome-session
+sbellet+ 32719  0.0  0.0  13936  1856 ?        S    15:34   0:00 dbus-launch --sh-syntax --exit-with-session
+sbellet+ 32720  0.0  0.0  42264  2824 ?        Ss   15:34   0:01 /bin/dbus-daemon --fork --print-pid 4 --print-address 6 --session
