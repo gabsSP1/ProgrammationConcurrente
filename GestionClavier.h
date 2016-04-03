@@ -9,11 +9,9 @@
 #if ! defined ( GESTIONCLAVIER_H )
 #define GESTIONCLAVIER_H
 //--------------------------------------------------- Interfaces utilisées
-#include <stdlib.h>
-#include <unistd.h>
 
 
-    void GestionClavier();
+    void GestionClavier(int balE1, int balE2, int balE3, int balS);
     // Mode d'emploi :
     //
     // Contrat :

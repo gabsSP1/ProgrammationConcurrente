@@ -26,6 +26,7 @@ using namespace std;
 #include "Sortie.h"
 #include "Heure.h"
 #include <Outils.h>
+#include "Entree.h"
 //------------------------------------------------------------- Constantes
 #define DROITS 0660
 //----------------------------------------------------------- Prototypes prives
@@ -66,6 +67,9 @@ int main()
 	att1 = semget( IPC_PRIVATE, 1 ,IPC_CREAT | DROITS );
 	att2 = semget( IPC_PRIVATE, 1 ,IPC_CREAT | DROITS );
 	att3 = semget( IPC_PRIVATE, 1 ,IPC_CREAT | DROITS );
+	semctl ( att1, 0, SETVAL, 1);
+	semctl ( att2, 0, SETVAL, 1); 
+	semctl ( att3, 0, SETVAL, 1);  
 	//structures sortie
 	int balS;//boite au lettre
 	balS = msgget( IPC_PRIVATE, IPC_CREAT | DROITS );
@@ -83,14 +87,18 @@ int main()
 	{
 		memInit->Places[i].typeUsager =  AUCUN;
 	}
+	//shmctl ( mem, IPC_SET, (shmid_ds*) &memInit );
 	shmdt( memInit );//initialisation fini -> on detache
 	int mutMem;//mutex mempartagée
 	mutMem = semget( IPC_PRIVATE, 1 ,IPC_CREAT | DROITS );
-	
+	semctl ( mutMem, 0, SETVAL, 1); 
 	//MOTEUR
 	pid_t pidClavier;
 	pid_t pidGestionHeure;
 	pid_t pidSortie;
+	pid_t pidPBlaisePascal;
+	pid_t pidABlaisePascal;
+	pid_t pidGastonBerger;
 	//Heure
 	//On debloque pour pouvoir tuer l'heure -> evite qu'elle herite de l'ignorance de SIGUSR2 -> du kill
 	sigprocmask( SIG_UNBLOCK, &signauxABloquer, NULL);
@@ -98,10 +106,28 @@ int main()
 	sigprocmask( SIG_BLOCK, &signauxABloquer, NULL);
 	
 	
+	if( (pidPBlaisePascal = fork() ) == 0)
+	//Clavier
+	{
+		Entree(balE1, mem, PROF_BLAISE_PASCAL, mutMem, att1);
+	}
+	
+	if( (pidABlaisePascal = fork() ) == 0)
+	//Clavier
+	{
+		Entree(balE2, mem, AUTRE_BLAISE_PASCAL, mutMem, att2);
+	}
+	
+	if( (pidGastonBerger = fork() ) == 0)
+	//Clavier
+	{
+		Entree(balE3, mem, ENTREE_GASTON_BERGER, mutMem, att3);
+	}
+	
 	if( (pidClavier = fork() ) == 0)
 	//Clavier
 	{
-		GestionClavier();
+		GestionClavier(balE1, balE2, balE3, balS);
 	}
 	else if( (pidSortie = fork() ) == 0)
 	{
@@ -117,6 +143,9 @@ int main()
 	kill(pidSortie, SIGUSR2 );
 	//On tue la gestion de l'heure
 	kill( pidGestionHeure , SIGUSR2 );
+	kill( pidPBlaisePascal , SIGUSR2 );
+	kill( pidABlaisePascal , SIGUSR2 );
+	kill( pidGastonBerger , SIGUSR2 );
 	//memoire partagee
 	semctl( mutMem, 0, IPC_RMID, 0 );//mutex
 	shmctl( mem, IPC_RMID, 0 );//memoire
