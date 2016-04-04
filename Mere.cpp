@@ -146,6 +146,9 @@ int main()
 	kill( pidPBlaisePascal , SIGUSR2 );
 	kill( pidABlaisePascal , SIGUSR2 );
 	kill( pidGastonBerger , SIGUSR2 );
+	while(waitpid (pidPBlaisePascal, NULL, 0) == -1);
+	while(waitpid (pidABlaisePascal, NULL, 0) == -1);
+	while(waitpid (pidGastonBerger, NULL, 0) == -1);
 	//memoire partagee
 	semctl( mutMem, 0, IPC_RMID, 0 );//mutex
 	shmctl( mem, IPC_RMID, 0 );//memoire
@@ -168,5 +171,4 @@ int main()
 
 static void Moteur(pid_t pidClavier){
 	waitpid(pidClavier,NULL,0);
-	
 }

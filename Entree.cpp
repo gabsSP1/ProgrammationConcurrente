@@ -18,6 +18,7 @@
 #include <sys/wait.h>
 #include <sys/shm.h>
 #include <map>
+#include <iostream>
 //------------------------------------------------------ Include personnel
 #include "Mere.h"
 
@@ -37,6 +38,16 @@ static memPartagee mem;
 static sembuf proberen;
 static sembuf verhogen;
 //------------------------------------------------------ Fonctions privées
+static void terminerTacheEntree()
+{
+	while( errno != ECHILD)
+	{
+		waitpid(-1, NULL, 0);
+	}
+	shmdt( (void*) &mem);
+	exit(0);
+}
+
 static void stockerPlaceVoiture ( int noSignal )
 // Mode d'emploi :
 //
@@ -53,7 +64,7 @@ static void stockerPlaceVoiture ( int noSignal )
 		msgvoit message = mapVoiture[pid];
 		mapVoiture.erase ( pid );
 		status = WEXITSTATUS (status );
-		semop ( sMutex, &proberen, 1 );
+		while ( semop ( sMutex, &proberen, 1 ) == -1);
 		mem.Places[status] = message;
 		semop ( sMutex, &verhogen , 1 );
 		AfficherPlace ( status, message.typeUsager, message.numvoit, message.heure );
@@ -63,7 +74,7 @@ static void stockerPlaceVoiture ( int noSignal )
 	
 	else
 	{
-		exit(0);
+		terminerTacheEntree();
 	}	
 
 } //----- fin de nom
@@ -83,7 +94,7 @@ void Entree ( int boite, int memoire, TypeBarriere typeBarrieres, int semMutex, 
 		struct sigaction action;
 		action.sa_handler = stockerPlaceVoiture;
 		sigemptyset ( &action.sa_mask );
-		action.sa_flags = SA_RESTART;
+		action.sa_flags = 0;
 		sigaction ( SIGUSR2, &action, NULL );
 		sigaction ( SIGCHLD, &action, NULL );
 		typeBarriere = typeBarrieres;
@@ -92,9 +103,9 @@ void Entree ( int boite, int memoire, TypeBarriere typeBarrieres, int semMutex, 
 		for(;;)
 		{
 			msgvoit messageRecu;
-			while (msgrcv ( bE, (void*) &messageRecu, sizeof ( msgvoit ), 0,  MSG_NOERROR) == -1);
+			while ( msgrcv ( bE, (void*) &messageRecu, sizeof ( msgvoit ), 0,  MSG_NOERROR) == -1);
 			DessinerVoitureBarriere ( typeBarriere, messageRecu.typeUsager ); 
-			semop ( sMutex, &proberen, 1 );
+			while (semop ( sMutex, &proberen, 1 )==-1);
 			if (mem.nbPlacesLibres == 0)
 			{
 				mem.enAttente[typeBarriere-1] = messageRecu;
@@ -105,13 +116,15 @@ void Entree ( int boite, int memoire, TypeBarriere typeBarrieres, int semMutex, 
 			{			
 				mem.nbPlacesLibres--;
 			}	
-			semop ( sMutex, &verhogen, 1 );
-			Afficher ( REQUETE_R3, semctl(sAttente, 0, GETVAL, p));
+			while ( semop ( sMutex, &verhogen, 1 ) == -1 );
+			//Afficher ( REQUETE_R3, semctl(sAttente, 0, GETVAL, p));
 			while ( semop ( sAttente, &proberen, 1 ) ==-1);
 			Afficher ( REQUETE_R2, semctl(sAttente, 0, GETVAL, p));
 			pid_t pidVoiturier = GarerVoiture ( typeBarriere );
+			Afficher ( REQUETE_R2, messageRecu.numvoit);
 			mapVoiture[pidVoiturier] = messageRecu;
-			semop ( sAttente, &verhogen, 1 );
+			while ( semop ( sAttente, &verhogen, 1 ) == -1);
+			sleep(1);
 		}
 } //----- fin de Nom
 
