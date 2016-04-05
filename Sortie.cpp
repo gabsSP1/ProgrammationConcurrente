@@ -53,10 +53,7 @@ static map<pid_t, msgvoit> voituriers;
 static struct sembuf reserver{0, -1, 0};
 static struct sembuf liberer{0, 1, 0};//operations sur mutex
 static int mutexMem;
-static int semAtt1;
-static int semAtt2;
-static int semAtt3;
-
+static int semAtt [3];
 //handler de mort
 static void handlerSig(int noSignal)
 {
@@ -72,6 +69,7 @@ static void handlerSig(int noSignal)
 		shmdt( memSh );
 		exit(0);
 	}
+	
 	else if( noSignal == SIGCHLD )
 	{
 		int status;
@@ -79,174 +77,31 @@ static void handlerSig(int noSignal)
 		msgvoit msg = voituriers[pid];
 		voituriers.erase ( pid );
 		AfficherSortie( msg.typeUsager, msg.numvoit, msg.heure, time(NULL));
-		
-		//Maintenant que la voiture a quitte le parking
-		//On fait rentrer les voitures
-		
-		//cet affichage bug ?
-		char* testStr;
-		sprintf( testStr, "R1 %d R2 %d R3 %d", memSh->enAttente[0].typeUsager, memSh->enAttente[1].typeUsager, memSh->enAttente[2].typeUsager );
-		Effacer( MESSAGE );
-		Afficher( MESSAGE, testStr );
-		
 		while ( semop( mutexMem, &reserver, 1 ) == -1);
-		if( memSh->enAttente[0].typeUsager == AUCUN
-				&& memSh->enAttente[1].typeUsager == AUCUN
-				&& memSh->enAttente[2].typeUsager == AUCUN )
-		{//Si il n'y a personne
-			memSh->nbPlacesLibres += 1;
-		}
-		//Si il y a exactement une personne en attente
-		else if( memSh->enAttente[1].typeUsager == AUCUN
-				&& memSh->enAttente[2].typeUsager == AUCUN )
+		int minInd = -1;
+		int min =10;
+		time_t minT;
+		for (int i=0; i<3; i++)
 		{
-			semop(semAtt1, &liberer, 1);
-		}
-		else if( memSh->enAttente[0].typeUsager == AUCUN
-				&& memSh->enAttente[2].typeUsager == AUCUN )
-		{
-			semop(semAtt2, &liberer, 1);
-		}
-		else if( memSh->enAttente[0].typeUsager == AUCUN
-				&& memSh->enAttente[1].typeUsager == AUCUN )
-		{
-			semop(semAtt3, &liberer, 1);
-		}
-		//Si il y a exactement deux personnes en attente
-		else if( memSh->enAttente[2].typeUsager == AUCUN )
-		{
-			if( memSh->enAttente[0].typeUsager == memSh->enAttente[1].typeUsager )
-			{
-				if( memSh->enAttente[0].heure < memSh->enAttente[1].heure )
-				{
-					semop(semAtt1, &liberer, 1);
-				}
-				else
-				{
-					semop(semAtt2, &liberer, 1);
-				}
-			}
-			else
-			{
-				if( memSh->enAttente[0].typeUsager == PROF )
-				{
-					semop(semAtt1, &liberer, 1);
-				}
-				else
-				{
-					semop(semAtt2, &liberer, 1);
-				}
-			}
+			time_t tempT = memSh->enAttente[i].heure;
+			int temp = memSh->enAttente[i].typeUsager;
 			
+			if ( temp !=0 && ( temp < min || ( temp == min && tempT < minT ) ) )
+			{
+				minInd = i;
+				min = temp;
+				minT = tempT;
+			}
 		}
-		else if( memSh->enAttente[1].typeUsager == AUCUN )
+		if ( minInd != -1 )
 		{
-			if( memSh->enAttente[0].typeUsager == memSh->enAttente[2].typeUsager )
-			{
-				if( memSh->enAttente[0].heure < memSh->enAttente[2].heure )
-				{
-					semop(semAtt1, &liberer, 1);
-				}
-				else
-				{
-					semop(semAtt3, &liberer, 1);
-				}
-			}
-			else
-			{
-				if( memSh->enAttente[0].typeUsager == PROF )
-				{
-					semop(semAtt1, &liberer, 1);
-				}
-				else
-				{
-					semop(semAtt3, &liberer, 1);
-				}
-			}
-			
+			semop(semAtt [minInd], &liberer, 1);
+			Effacer ( (TypeZone) (10 + minInd) );
+			memSh->enAttente[minInd].typeUsager = AUCUN;
 		}
-		else if( memSh->enAttente[0].typeUsager == AUCUN )
-		{
-			if( memSh->enAttente[2].typeUsager == memSh->enAttente[1].typeUsager )
-			{
-				if( memSh->enAttente[1].heure < memSh->enAttente[2].heure )
-				{
-					semop(semAtt2, &liberer, 1);
-				}
-				else
-				{
-					semop(semAtt3, &liberer, 1);
-				}
-			}
-			else
-			{
-				if( memSh->enAttente[1].typeUsager == PROF )
-				{
-					semop(semAtt2, &liberer, 1);
-				}
-				else
-				{
-					semop(semAtt3, &liberer, 1);
-				}
-			}
-			
-		}
-		//Si toutes les barrières sont en attente
 		else
 		{
-				//Si toutes les barrières sont en attentes il y a au moins un prof qui attend
-				if( memSh->enAttente[0].typeUsager == PROF )
-				{
-					if( memSh->enAttente[1].typeUsager == PROF )
-					{
-						if( memSh->enAttente[0].heure < memSh->enAttente[1].heure )
-						{
-							semop(semAtt1, &liberer, 1);
-						}
-						else
-						{
-							semop(semAtt2, &liberer, 1);
-						}
-					}
-					else if ( memSh->enAttente[2].typeUsager == PROF )
-					{
-						if( memSh->enAttente[0].heure < memSh->enAttente[2].heure )
-						{
-							semop(semAtt1, &liberer, 1);
-						}
-						else
-						{
-							semop(semAtt3, &liberer, 1);
-						}
-					}
-					else
-					{
-						semop(semAtt1, &liberer, 1);
-					}
-				}
-				else if ( memSh->enAttente[1].typeUsager == PROF )
-				{
-					if ( memSh->enAttente[2].typeUsager == PROF )
-					{
-						if( memSh->enAttente[1].heure < memSh->enAttente[2].heure )
-						{
-							semop(semAtt2, &liberer, 1);
-						}
-						else
-						{
-							semop(semAtt3, &liberer, 1);
-						}
-					}
-					else
-					{
-						semop(semAtt2, &liberer, 1);
-					}
-				}
-				else if ( memSh->enAttente[2].typeUsager == PROF )
-				{
-					semop(semAtt3, &liberer, 1);
-				}
-				
+			memSh->nbPlacesLibres += 1;
 		}
 		semop( mutexMem, &liberer, 1 );
 	}
@@ -271,9 +126,9 @@ void Sortie ( int balS, int att1, int att2, int att3, int mem, int mutMem )
 	struct msgvoit msgRec;
 	//semaphores
 	mutexMem = mutMem;
-	semAtt1 = att1;
-	semAtt2 = att2;
-	semAtt3 = att3;
+	semAtt[0] = att1;
+	semAtt[1] = att2;
+	semAtt[2] = att3;
 	
 	
 	for(;;)
@@ -281,15 +136,7 @@ void Sortie ( int balS, int att1, int att2, int att3, int mem, int mutMem )
 		//Verification de l'etat des voituriers
 		int i = 0;
 		//Etape 1 attente de messages
-		msgrcv( balS, &msgRec, sizeof ( struct msgvoit ), 0,  0);
-		/*
-		//test sur l'entree recue
-		char* testStr;
-		sprintf(testStr, "Entree recue %d Usager %d nbPlacelibres %d", msgRec.place, memSh->places[msgRec.place - 1].typeUsager, memSh->nbPlacesLibres );
-		Effacer( MESSAGE );
-		Afficher( MESSAGE, testStr );
-		*/
-		
+		while (msgrcv( balS, &msgRec, sizeof ( struct msgvoit ), 0,  0) == -1);
 		//Utilisation de la memoire
 		while ( semop( mutexMem, &reserver, 1 ) == -1);
 		//on verifie qu'on fait bien sortir une voiture existante
@@ -301,39 +148,8 @@ void Sortie ( int balS, int att1, int att2, int att3, int mem, int mutMem )
 			msgRec.numvoit = memSh->places[msgRec.place - 1].numvoit;
 			//Etape 3 on fait sortir la voiture
 			memSh->places[msgRec.place - 1].typeUsager = AUCUN;//on libere la place
-			switch( msgRec.place )
-			{
-				case 1:
-					Effacer( ETAT_P1 );
-					break;
-				case 2:
-					Effacer( ETAT_P2 );
-					break;
-				case 3:
-					Effacer( ETAT_P3 );
-					break;
-				case 4:
-					Effacer( ETAT_P4 );
-					break;
-				case 5:
-					Effacer( ETAT_P5 );
-					break;
-				case 6:
-					Effacer( ETAT_P6 );
-					break;
-				case 7:
-					Effacer( ETAT_P7 );
-					break;
-				case 8:
-					Effacer( ETAT_P8 );
-					break;
-				default://ce cas ne devrait jamais arriver
-					break;
-				
-			}
-			voituriers[ SortirVoiture( msgRec.place ) ] = msgRec;
-			
-			
+			Effacer((TypeZone) msgRec.place );
+			voituriers[ SortirVoiture( msgRec.place ) ] = msgRec;	
 		}
 		semop( mutexMem, &liberer, 1 );
 		

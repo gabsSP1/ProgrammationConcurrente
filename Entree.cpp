@@ -39,24 +39,8 @@ static memPartagee* memTest;
 static sembuf proberen;
 static sembuf verhogen;
 //------------------------------------------------------ Fonctions privées
-static void terminerTacheEntree()
-{
-	for(map<pid_t, msgvoit>::iterator it = mapVoiture.begin(); it != mapVoiture.end(); it++)
-	{
-		if( it->first != -1 )
-		{
-			kill (it->first , SIGUSR2);	
-		}
-	}
-	for(map<pid_t, msgvoit>::iterator it = mapVoiture.begin(); it != mapVoiture.end(); it++)
-	{
-		waitpid (it->first , NULL, 0);	
-	}
-	shmdt( (void*) mem);
-	exit(0);
-}
 
-static void stockerPlaceVoiture ( int noSignal )
+static void handlerSig ( int noSignal )
 // Mode d'emploi :
 //
 // Contrat :
@@ -64,7 +48,6 @@ static void stockerPlaceVoiture ( int noSignal )
 // Algorithme :
 //
 {
-	
 	if ( noSignal == SIGCHLD )
 	{
 		int status;
@@ -80,11 +63,19 @@ static void stockerPlaceVoiture ( int noSignal )
 		
 	}
 	
-	else
+	else if ( noSignal == SIGUSR2 )
 	{
-		terminerTacheEntree();
-	}	
-
+		for(map<pid_t, msgvoit>::iterator it = mapVoiture.begin(); it != mapVoiture.end(); it++)
+		{
+			while ( kill (it->first , SIGUSR2) == -1 );	
+		}
+		for(map<pid_t, msgvoit>::iterator it = mapVoiture.begin(); it != mapVoiture.end(); it++)
+		{
+			while ( kill (it->first , SIGUSR2) == -1 );	
+		}
+		shmdt( (void*) mem);
+		exit(0);
+		}	
 } //----- fin de nom
 
 //////////////////////////////////////////////////////////////////  PUBLIC
@@ -100,7 +91,7 @@ void Entree ( int boite, int memoire, TypeBarriere typeBarrieres, int semMutex, 
 		memoireId = memoire;
 		mem = ( memPartagee* ) (shmat ( memoire, NULL, 0));
 		struct sigaction action;
-		action.sa_handler = stockerPlaceVoiture;
+		action.sa_handler = handlerSig;
 		sigemptyset ( &action.sa_mask );
 		action.sa_flags = 0;
 		sigaction ( SIGUSR2, &action, NULL );
@@ -113,10 +104,12 @@ void Entree ( int boite, int memoire, TypeBarriere typeBarrieres, int semMutex, 
 			msgvoit messageRecu;
 			while ( msgrcv ( bE, (void*) &messageRecu, sizeof ( msgvoit ), 0,  MSG_NOERROR) == -1);
 			DessinerVoitureBarriere ( typeBarriere, messageRecu.typeUsager ); 
+			messageRecu.heure = time(NULL);
 			while (semop ( sMutex, &proberen, 1 )==-1);
 			if (mem->nbPlacesLibres == 0)
 			{
 				mem->enAttente[typeBarriere-1] = messageRecu;
+				AfficherRequete ( typeBarriere, messageRecu.typeUsager, messageRecu.heure);
 				semop ( sAttente, &proberen, 1);
 			}
 			else
@@ -126,9 +119,9 @@ void Entree ( int boite, int memoire, TypeBarriere typeBarrieres, int semMutex, 
 			while ( semop ( sMutex, &verhogen, 1 ) == -1 );
 			//Afficher ( REQUETE_R3, semctl(sAttente, 0, GETVAL, p));
 			while ( semop ( sAttente, &proberen, 1 ) ==-1);
-			Afficher ( REQUETE_R2, semctl(sAttente, 0, GETVAL, p));
+			//Afficher ( REQUETE_R2, semctl(sAttente, 0, GETVAL, p));
 			pid_t pidVoiturier = GarerVoiture ( typeBarriere );
-			Afficher ( REQUETE_R2, messageRecu.numvoit);
+			//Afficher ( REQUETE_R2, messageRecu.numvoit);
 			mapVoiture[pidVoiturier] = messageRecu;
 			while ( semop ( sAttente, &verhogen, 1 ) == -1);
 			sleep(1);

@@ -34,7 +34,6 @@ static void sendMessageE (TypeUsager typeUsager, long type, int boite)
 //
 {
 	msgvoit msg;
-	msg.heure = time(NULL);
 	msg.typeUsager = typeUsager;
 	msg.type = type;
 	msg.numvoit = nbVoiture%999+1;
