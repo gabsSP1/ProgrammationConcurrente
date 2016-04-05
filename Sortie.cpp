@@ -50,6 +50,12 @@
 
 static memPartagee* memSh; 
 static map<pid_t, msgvoit> voituriers;
+static struct sembuf reserver{0, -1, 0};
+static struct sembuf liberer{0, 1, 0};//operations sur mutex
+static int mutexMem;
+static int semAtt1;
+static int semAtt2;
+static int semAtt3;
 
 //handler de mort
 static void handlerSig(int noSignal)
@@ -73,6 +79,176 @@ static void handlerSig(int noSignal)
 		msgvoit msg = voituriers[pid];
 		voituriers.erase ( pid );
 		AfficherSortie( msg.typeUsager, msg.numvoit, msg.heure, time(NULL));
+		
+		//Maintenant que la voiture a quitte le parking
+		//On fait rentrer les voitures
+		
+		//cet affichage bug ?
+		char* testStr;
+		sprintf( testStr, "R1 %d R2 %d R3 %d", memSh->enAttente[0].typeUsager, memSh->enAttente[1].typeUsager, memSh->enAttente[2].typeUsager );
+		Effacer( MESSAGE );
+		Afficher( MESSAGE, testStr );
+		
+		while ( semop( mutexMem, &reserver, 1 ) == -1);
+		if( memSh->enAttente[0].typeUsager == AUCUN
+				&& memSh->enAttente[1].typeUsager == AUCUN
+				&& memSh->enAttente[2].typeUsager == AUCUN )
+		{//Si il n'y a personne
+			memSh->nbPlacesLibres += 1;
+		}
+		//Si il y a exactement une personne en attente
+		else if( memSh->enAttente[1].typeUsager == AUCUN
+				&& memSh->enAttente[2].typeUsager == AUCUN )
+		{
+			semop(semAtt1, &liberer, 1);
+		}
+		else if( memSh->enAttente[0].typeUsager == AUCUN
+				&& memSh->enAttente[2].typeUsager == AUCUN )
+		{
+			semop(semAtt2, &liberer, 1);
+		}
+		else if( memSh->enAttente[0].typeUsager == AUCUN
+				&& memSh->enAttente[1].typeUsager == AUCUN )
+		{
+			semop(semAtt3, &liberer, 1);
+		}
+		//Si il y a exactement deux personnes en attente
+		else if( memSh->enAttente[2].typeUsager == AUCUN )
+		{
+			if( memSh->enAttente[0].typeUsager == memSh->enAttente[1].typeUsager )
+			{
+				if( memSh->enAttente[0].heure < memSh->enAttente[1].heure )
+				{
+					semop(semAtt1, &liberer, 1);
+				}
+				else
+				{
+					semop(semAtt2, &liberer, 1);
+				}
+			}
+			else
+			{
+				if( memSh->enAttente[0].typeUsager == PROF )
+				{
+					semop(semAtt1, &liberer, 1);
+				}
+				else
+				{
+					semop(semAtt2, &liberer, 1);
+				}
+			}
+			
+		}
+		else if( memSh->enAttente[1].typeUsager == AUCUN )
+		{
+			if( memSh->enAttente[0].typeUsager == memSh->enAttente[2].typeUsager )
+			{
+				if( memSh->enAttente[0].heure < memSh->enAttente[2].heure )
+				{
+					semop(semAtt1, &liberer, 1);
+				}
+				else
+				{
+					semop(semAtt3, &liberer, 1);
+				}
+			}
+			else
+			{
+				if( memSh->enAttente[0].typeUsager == PROF )
+				{
+					semop(semAtt1, &liberer, 1);
+				}
+				else
+				{
+					semop(semAtt3, &liberer, 1);
+				}
+			}
+			
+		}
+		else if( memSh->enAttente[0].typeUsager == AUCUN )
+		{
+			if( memSh->enAttente[2].typeUsager == memSh->enAttente[1].typeUsager )
+			{
+				if( memSh->enAttente[1].heure < memSh->enAttente[2].heure )
+				{
+					semop(semAtt2, &liberer, 1);
+				}
+				else
+				{
+					semop(semAtt3, &liberer, 1);
+				}
+			}
+			else
+			{
+				if( memSh->enAttente[1].typeUsager == PROF )
+				{
+					semop(semAtt2, &liberer, 1);
+				}
+				else
+				{
+					semop(semAtt3, &liberer, 1);
+				}
+			}
+			
+		}
+		//Si toutes les barrières sont en attente
+		else
+		{
+				//Si toutes les barrières sont en attentes il y a au moins un prof qui attend
+				if( memSh->enAttente[0].typeUsager == PROF )
+				{
+					if( memSh->enAttente[1].typeUsager == PROF )
+					{
+						if( memSh->enAttente[0].heure < memSh->enAttente[1].heure )
+						{
+							semop(semAtt1, &liberer, 1);
+						}
+						else
+						{
+							semop(semAtt2, &liberer, 1);
+						}
+					}
+					else if ( memSh->enAttente[2].typeUsager == PROF )
+					{
+						if( memSh->enAttente[0].heure < memSh->enAttente[2].heure )
+						{
+							semop(semAtt1, &liberer, 1);
+						}
+						else
+						{
+							semop(semAtt3, &liberer, 1);
+						}
+					}
+					else
+					{
+						semop(semAtt1, &liberer, 1);
+					}
+				}
+				else if ( memSh->enAttente[1].typeUsager == PROF )
+				{
+					if ( memSh->enAttente[2].typeUsager == PROF )
+					{
+						if( memSh->enAttente[1].heure < memSh->enAttente[2].heure )
+						{
+							semop(semAtt2, &liberer, 1);
+						}
+						else
+						{
+							semop(semAtt3, &liberer, 1);
+						}
+					}
+					else
+					{
+						semop(semAtt2, &liberer, 1);
+					}
+				}
+				else if ( memSh->enAttente[2].typeUsager == PROF )
+				{
+					semop(semAtt3, &liberer, 1);
+				}
+				
+		}
+		semop( mutexMem, &liberer, 1 );
 	}
 	
 }
@@ -93,9 +269,12 @@ void Sortie ( int balS, int att1, int att2, int att3, int mem, int mutMem )
 	memSh = (memPartagee*) shmat( mem, NULL, 0 );
 	//structure de recuperation de message
 	struct msgvoit msgRec;
-	//operation sur semaphores
-	struct sembuf reserver{0, -1, 0};
-	struct sembuf liberer{0, 1, 0};//operations sur mutex
+	//semaphores
+	mutexMem = mutMem;
+	semAtt1 = att1;
+	semAtt2 = att2;
+	semAtt3 = att3;
+	
 	
 	for(;;)
 	{
@@ -103,14 +282,16 @@ void Sortie ( int balS, int att1, int att2, int att3, int mem, int mutMem )
 		int i = 0;
 		//Etape 1 attente de messages
 		msgrcv( balS, &msgRec, sizeof ( struct msgvoit ), 0,  0);
+		/*
+		//test sur l'entree recue
 		char* testStr;
 		sprintf(testStr, "Entree recue %d Usager %d nbPlacelibres %d", msgRec.place, memSh->places[msgRec.place - 1].typeUsager, memSh->nbPlacesLibres );
 		Effacer( MESSAGE );
 		Afficher( MESSAGE, testStr );
-		
+		*/
 		
 		//Utilisation de la memoire
-		while ( semop( mutMem, &reserver, 1 ) == -1);
+		while ( semop( mutexMem, &reserver, 1 ) == -1);
 		//on verifie qu'on fait bien sortir une voiture existante
 		if(memSh->places[msgRec.place - 1].typeUsager != AUCUN)
 		{
@@ -152,167 +333,9 @@ void Sortie ( int balS, int att1, int att2, int att3, int mem, int mutMem )
 			}
 			voituriers[ SortirVoiture( msgRec.place ) ] = msgRec;
 			
-			//Etape 4 on fait rentrer les voitures
-			if( memSh->enAttente[0].typeUsager == AUCUN
-					&& memSh->enAttente[1].typeUsager == AUCUN
-					&& memSh->enAttente[2].typeUsager == AUCUN )
-			{//Si il n'y a personne
-				memSh->nbPlacesLibres += 1;
-			}
-			//Si il y a exactement une personne en attente
-			else if( memSh->enAttente[1].typeUsager == AUCUN
-					&& memSh->enAttente[2].typeUsager == AUCUN )
-			{
-				semop(att1, &liberer, 1);
-			}
-			else if( memSh->enAttente[0].typeUsager == AUCUN
-					&& memSh->enAttente[2].typeUsager == AUCUN )
-			{
-				semop(att2, &liberer, 1);
-			}
-			else if( memSh->enAttente[0].typeUsager == AUCUN
-					&& memSh->enAttente[1].typeUsager == AUCUN )
-			{
-				semop(att3, &liberer, 1);
-			}
-			//Si il y a exactement deux personnes en attente
-			else if( memSh->enAttente[2].typeUsager == AUCUN )
-			{
-				if( memSh->enAttente[0].typeUsager == memSh->enAttente[1].typeUsager )
-				{
-					if( memSh->enAttente[0].heure < memSh->enAttente[1].heure )
-					{
-						semop(att1, &liberer, 1);
-					}
-					else
-					{
-						semop(att2, &liberer, 1);
-					}
-				}
-				else
-				{
-					if( memSh->enAttente[0].typeUsager == PROF )
-					{
-						semop(att1, &liberer, 1);
-					}
-					else
-					{
-						semop(att2, &liberer, 1);
-					}
-				}
-				
-			}
-			else if( memSh->enAttente[1].typeUsager == AUCUN )
-			{
-				if( memSh->enAttente[0].typeUsager == memSh->enAttente[2].typeUsager )
-				{
-					if( memSh->enAttente[0].heure < memSh->enAttente[2].heure )
-					{
-						semop(att1, &liberer, 1);
-					}
-					else
-					{
-						semop(att3, &liberer, 1);
-					}
-				}
-				else
-				{
-					if( memSh->enAttente[0].typeUsager == PROF )
-					{
-						semop(att1, &liberer, 1);
-					}
-					else
-					{
-						semop(att3, &liberer, 1);
-					}
-				}
-				
-			}
-			else if( memSh->enAttente[0].typeUsager == AUCUN )
-			{
-				if( memSh->enAttente[2].typeUsager == memSh->enAttente[1].typeUsager )
-				{
-					if( memSh->enAttente[1].heure < memSh->enAttente[2].heure )
-					{
-						semop(att2, &liberer, 1);
-					}
-					else
-					{
-						semop(att3, &liberer, 1);
-					}
-				}
-				else
-				{
-					if( memSh->enAttente[1].typeUsager == PROF )
-					{
-						semop(att2, &liberer, 1);
-					}
-					else
-					{
-						semop(att3, &liberer, 1);
-					}
-				}
-				
-			}
-			//Si toutes les barrières sont en attente
-			else
-			{
-					//Si toutes les barrières sont en attentes il y a au moins un prof qui attend
-					if( memSh->enAttente[0].typeUsager == PROF )
-					{
-						if( memSh->enAttente[1].typeUsager == PROF )
-						{
-							if( memSh->enAttente[0].heure < memSh->enAttente[1].heure )
-							{
-								semop(att1, &liberer, 1);
-							}
-							else
-							{
-								semop(att2, &liberer, 1);
-							}
-						}
-						else if ( memSh->enAttente[2].typeUsager == PROF )
-						{
-							if( memSh->enAttente[0].heure < memSh->enAttente[2].heure )
-							{
-								semop(att1, &liberer, 1);
-							}
-							else
-							{
-								semop(att3, &liberer, 1);
-							}
-						}
-						else
-						{
-							semop(att1, &liberer, 1);
-						}
-					}
-					else if ( memSh->enAttente[1].typeUsager == PROF )
-					{
-						if ( memSh->enAttente[2].typeUsager == PROF )
-						{
-							if( memSh->enAttente[1].heure < memSh->enAttente[2].heure )
-							{
-								semop(att2, &liberer, 1);
-							}
-							else
-							{
-								semop(att3, &liberer, 1);
-							}
-						}
-						else
-						{
-							semop(att2, &liberer, 1);
-						}
-					}
-					else if ( memSh->enAttente[2].typeUsager == PROF )
-					{
-						semop(att3, &liberer, 1);
-					}
-					
-			}
+			
 		}
-		semop( mutMem, &liberer, 1 );
+		semop( mutexMem, &liberer, 1 );
 		
 	}
 	pause();

@@ -43,7 +43,10 @@ static void terminerTacheEntree()
 {
 	for(map<pid_t, msgvoit>::iterator it = mapVoiture.begin(); it != mapVoiture.end(); it++)
 	{
-		kill (it->first , SIGUSR2);	
+		if( it->first != -1 )
+		{
+			kill (it->first , SIGUSR2);	
+		}
 	}
 	for(map<pid_t, msgvoit>::iterator it = mapVoiture.begin(); it != mapVoiture.end(); it++)
 	{
@@ -115,9 +118,6 @@ void Entree ( int boite, int memoire, TypeBarriere typeBarrieres, int semMutex, 
 			{
 				mem->enAttente[typeBarriere-1] = messageRecu;
 				semop ( sAttente, &proberen, 1);
-				memTest = ( memPartagee* ) shmat ( memoire, NULL, 0);
-				AfficherRequete ( typeBarriere, memTest->enAttente[typeBarriere-1].typeUsager, messageRecu.heure );
-				shmdt( (void*) mem);
 			}
 			else
 			{			
