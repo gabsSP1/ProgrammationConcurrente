@@ -42,8 +42,11 @@ static void terminerTacheEntree()
 {
 	for(map<pid_t, msgvoit>::iterator it = mapVoiture.begin(); it != mapVoiture.end(); it++)
 	{
-		kill (it->first , SIGUSR2);
-		waitpid(it->first, NULL, 0);
+		kill (it->first , SIGUSR2);	
+	}
+	for(map<pid_t, msgvoit>::iterator it = mapVoiture.begin(); it != mapVoiture.end(); it++)
+	{
+		waitpid (it->first , NULL, 0);	
 	}
 	shmdt( (void*) &mem);
 	exit(0);
