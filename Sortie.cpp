@@ -48,11 +48,11 @@
 //////////////////////////////////////////////////////////////////  PUBLIC
 //---------------------------------------------------- Fonctions publiques
 
-static struct memPartagee* memSh; 
+static memPartagee* memSh; 
 static map<pid_t, msgvoit> voituriers;
 
 //handler de mort
-static void handlerFin(int noSignal)
+static void handlerSig(int noSignal)
 {
 	if( noSignal == SIGUSR2 )
 	{
@@ -84,7 +84,7 @@ void Sortie ( int balS, int att1, int att2, int att3, int mem, int mutMem )
 {	
 	//handler pour une fin propre
 	struct sigaction finSortie;
-	finSortie.sa_handler = handlerFin;
+	finSortie.sa_handler = handlerSig;
 	sigemptyset( &finSortie.sa_mask );
 	finSortie.sa_flags = 0;
 	sigaction( SIGUSR2, &finSortie, NULL );
@@ -101,13 +101,14 @@ void Sortie ( int balS, int att1, int att2, int att3, int mem, int mutMem )
 	{
 		//Verification de l'etat des voituriers
 		int i = 0;
-		
 		//Etape 1 attente de messages
 		msgrcv( balS, &msgRec, sizeof ( struct msgvoit ), 0,  0);
 		char* testStr;
-		sprintf(testStr, "Entree recue %d Usager %s nbPlacelibres %d", msgRec.place, memSh->places[msgRec.place - 1].typeUsager, memSh->nbPlacesLibres );
-		//Effacer( MESSAGE );
+		sprintf(testStr, "Entree recue %d Usager %d nbPlacelibres %d", msgRec.place, memSh->places[msgRec.place - 1].typeUsager, memSh->nbPlacesLibres );
+		Effacer( MESSAGE );
 		Afficher( MESSAGE, testStr );
+		
+		
 		//Utilisation de la memoire
 		while ( semop( mutMem, &reserver, 1 ) == -1);
 		//on verifie qu'on fait bien sortir une voiture existante
@@ -118,6 +119,7 @@ void Sortie ( int balS, int att1, int att2, int att3, int mem, int mutMem )
 			msgRec.heure = memSh->places[msgRec.place - 1].heure;
 			msgRec.numvoit = memSh->places[msgRec.place - 1].numvoit;
 			//Etape 3 on fait sortir la voiture
+			memSh->places[msgRec.place - 1].typeUsager = AUCUN;//on libere la place
 			switch( msgRec.place )
 			{
 				case 1:
@@ -309,11 +311,6 @@ void Sortie ( int balS, int att1, int att2, int att3, int mem, int mutMem )
 					}
 					
 			}
-		}
-		//A DEGAGER, JUSTE POUR LE TEST
-		else
-		{
-			voituriers[ SortirVoiture( msgRec.place ) ] = msgRec;
 		}
 		semop( mutMem, &liberer, 1 );
 		

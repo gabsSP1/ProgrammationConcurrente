@@ -106,6 +106,12 @@ int main()
 	sigprocmask( SIG_BLOCK, &signauxABloquer, NULL);
 	
 	
+	
+	if( (pidClavier = fork() ) == 0)
+	//Clavier
+	{
+		GestionClavier(balE1, balE2, balE3, balS);
+	}
 	if( (pidPBlaisePascal = fork() ) == 0)
 	//Entree 1
 	{
@@ -124,11 +130,6 @@ int main()
 		Entree(balE3, mem, ENTREE_GASTON_BERGER, mutMem, att3);
 	}
 	
-	if( (pidClavier = fork() ) == 0)
-	//Clavier
-	{
-		GestionClavier(balE1, balE2, balE3, balS);
-	}
 	if( (pidSortie = fork() ) == 0)
 	//Sortie
 	{
