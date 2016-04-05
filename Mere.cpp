@@ -85,7 +85,7 @@ int main()
 	}
 	for( int i=0 ; i<8 ; i++ )
 	{
-		memInit->Places[i].typeUsager =  AUCUN;
+		memInit->places[i].typeUsager =  AUCUN;
 	}
 	//shmctl ( mem, IPC_SET, (shmid_ds*) &memInit );
 	shmdt( memInit );//initialisation fini -> on detache
@@ -107,19 +107,19 @@ int main()
 	
 	
 	if( (pidPBlaisePascal = fork() ) == 0)
-	//Clavier
+	//Entree 1
 	{
 		Entree(balE1, mem, PROF_BLAISE_PASCAL, mutMem, att1);
 	}
 	
 	if( (pidABlaisePascal = fork() ) == 0)
-	//Clavier
+	//Entree 2
 	{
 		Entree(balE2, mem, AUTRE_BLAISE_PASCAL, mutMem, att2);
 	}
 	
 	if( (pidGastonBerger = fork() ) == 0)
-	//Clavier
+	//Entree 3
 	{
 		Entree(balE3, mem, ENTREE_GASTON_BERGER, mutMem, att3);
 	}
@@ -129,9 +129,10 @@ int main()
 	{
 		GestionClavier(balE1, balE2, balE3, balS);
 	}
-	else if( (pidSortie = fork() ) == 0)
+	if( (pidSortie = fork() ) == 0)
+	//Sortie
 	{
-		Sortie();
+		Sortie( balS, att1, att2, att3, mem, mutMem );
 	}
 	else
 	{
@@ -143,12 +144,10 @@ int main()
 	kill(pidSortie, SIGUSR2 );
 	//On tue la gestion de l'heure
 	kill( pidGestionHeure , SIGUSR2 );
+	//On tue les entrées
 	kill( pidPBlaisePascal , SIGUSR2 );
 	kill( pidABlaisePascal , SIGUSR2 );
 	kill( pidGastonBerger , SIGUSR2 );
-	while(waitpid (pidPBlaisePascal, NULL, 0) == -1);
-	while(waitpid (pidABlaisePascal, NULL, 0) == -1);
-	while(waitpid (pidGastonBerger, NULL, 0) == -1);
 	//memoire partagee
 	semctl( mutMem, 0, IPC_RMID, 0 );//mutex
 	shmctl( mem, IPC_RMID, 0 );//memoire
@@ -171,4 +170,5 @@ int main()
 
 static void Moteur(pid_t pidClavier){
 	waitpid(pidClavier,NULL,0);
+	
 }

@@ -31,7 +31,7 @@
 // Contrat :
 //
 
-void Sortie( );
+void Sortie( int balS, int att1, int att2, int att3, int mem, int mutMem );
 
 #endif // SORTIE_H
 

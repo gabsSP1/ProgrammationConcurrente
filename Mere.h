@@ -14,12 +14,13 @@ struct msgvoit{
 	TypeUsager typeUsager;//AUCUN -> VIDE !!!!
 	time_t heure;//obtenu avec time(NULL)
 	unsigned int numvoit;
+	int place;//a 0 pour l'entree utile uniquement pour la sortie (dans ce cas de 1 à 8)
 };
 //structure pour faciliter l'utilisation de la memoire partagee
 struct memPartagee{
 	int nbPlacesLibres;
 	struct msgvoit enAttente[3];
-	struct msgvoit Places[8];
+	struct msgvoit places[8];
 	
 };
 

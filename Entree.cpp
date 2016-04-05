@@ -70,7 +70,7 @@ static void stockerPlaceVoiture ( int noSignal )
 		mapVoiture.erase ( pid );
 		status = WEXITSTATUS (status );
 		while ( semop ( sMutex, &proberen, 1 ) == -1);
-		mem->Places[status] = message;
+		mem->places[status] = message;
 		semop ( sMutex, &verhogen , 1 );
 		AfficherPlace ( status, message.typeUsager, message.numvoit, message.heure );
 	
