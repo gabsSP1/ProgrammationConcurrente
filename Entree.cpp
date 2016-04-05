@@ -34,7 +34,8 @@ static int memoireId;
 static TypeBarriere typeBarriere;
 static map<pid_t, msgvoit> mapVoiture;
 static int sMutex, sAttente;
-static memPartagee mem;
+static memPartagee* mem;
+static memPartagee* memTest;
 static sembuf proberen;
 static sembuf verhogen;
 //------------------------------------------------------ Fonctions privées
@@ -48,7 +49,7 @@ static void terminerTacheEntree()
 	{
 		waitpid (it->first , NULL, 0);	
 	}
-	shmdt( (void*) &mem);
+	shmdt( (void*) mem);
 	exit(0);
 }
 
@@ -69,7 +70,7 @@ static void stockerPlaceVoiture ( int noSignal )
 		mapVoiture.erase ( pid );
 		status = WEXITSTATUS (status );
 		while ( semop ( sMutex, &proberen, 1 ) == -1);
-		mem.Places[status] = message;
+		mem->Places[status] = message;
 		semop ( sMutex, &verhogen , 1 );
 		AfficherPlace ( status, message.typeUsager, message.numvoit, message.heure );
 	
@@ -94,7 +95,7 @@ void Entree ( int boite, int memoire, TypeBarriere typeBarrieres, int semMutex, 
 		proberen = {0, -1, 0};
 		verhogen = {0, 1, 0};
 		memoireId = memoire;
-		mem = *(( memPartagee* ) shmat ( memoire, NULL, 0));
+		mem = ( memPartagee* ) (shmat ( memoire, NULL, 0));
 		struct sigaction action;
 		action.sa_handler = stockerPlaceVoiture;
 		sigemptyset ( &action.sa_mask );
@@ -110,15 +111,17 @@ void Entree ( int boite, int memoire, TypeBarriere typeBarrieres, int semMutex, 
 			while ( msgrcv ( bE, (void*) &messageRecu, sizeof ( msgvoit ), 0,  MSG_NOERROR) == -1);
 			DessinerVoitureBarriere ( typeBarriere, messageRecu.typeUsager ); 
 			while (semop ( sMutex, &proberen, 1 )==-1);
-			if (mem.nbPlacesLibres == 0)
+			if (mem->nbPlacesLibres == 0)
 			{
-				mem.enAttente[typeBarriere-1] = messageRecu;
+				mem->enAttente[typeBarriere-1] = messageRecu;
 				semop ( sAttente, &proberen, 1);
-				AfficherRequete ( typeBarriere, messageRecu.typeUsager, messageRecu.heure );
+				memTest = ( memPartagee* ) shmat ( memoire, NULL, 0);
+				AfficherRequete ( typeBarriere, memTest->enAttente[typeBarriere-1].typeUsager, messageRecu.heure );
+				shmdt( (void*) mem);
 			}
 			else
 			{			
-				mem.nbPlacesLibres--;
+				mem->nbPlacesLibres--;
 			}	
 			while ( semop ( sMutex, &verhogen, 1 ) == -1 );
 			//Afficher ( REQUETE_R3, semctl(sAttente, 0, GETVAL, p));
