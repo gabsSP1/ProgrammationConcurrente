@@ -20,7 +20,7 @@
 #include <map>
 #include <iostream>
 //------------------------------------------------------ Include personnel
-#include "Mere.h"
+#include "Util.h"
 
 
 ///////////////////////////////////////////////////////////////////  PRIVE
@@ -105,12 +105,12 @@ void Entree ( int boite, int memoire, TypeBarriere typeBarrieres, int semMutex, 
 			while ( msgrcv ( bE, (void*) &messageRecu, sizeof ( msgvoit ), 0,  MSG_NOERROR) == -1);
 			DessinerVoitureBarriere ( typeBarriere, messageRecu.typeUsager ); 
 			messageRecu.heure = time(NULL);
-			while (semop ( sMutex, &proberen, 1 )==-1);
-			if (mem->nbPlacesLibres == 0)
+			while (semop ( sMutex, &proberen, 1 ) == -1 );
+			if ( mem->nbPlacesLibres == 0 )
 			{
-				mem->enAttente[typeBarriere-1] = messageRecu;
-				AfficherRequete ( typeBarriere, messageRecu.typeUsager, messageRecu.heure);
-				semop ( sAttente, &proberen, 1);
+				mem->enAttente[ typeBarriere-1 ] = messageRecu;
+				AfficherRequete ( typeBarriere, messageRecu.typeUsager, messageRecu.heure );
+				semop ( sAttente, &proberen, 1 );
 			}
 			else
 			{			
@@ -123,7 +123,7 @@ void Entree ( int boite, int memoire, TypeBarriere typeBarrieres, int semMutex, 
 			pid_t pidVoiturier = GarerVoiture ( typeBarriere );
 			//Afficher ( REQUETE_R2, messageRecu.numvoit);
 			mapVoiture[pidVoiturier] = messageRecu;
-			while ( semop ( sAttente, &verhogen, 1 ) == -1);
+			while ( semop ( sAttente, &verhogen, 1 ) == -1 );
 			sleep(1);
 		}
 } //----- fin de Nom

@@ -15,7 +15,7 @@ using namespace std;
 //------------------------------------------------------ Include personnel
 #include "GestionClavier.h"
 #include "Menu.h"
-#include "Mere.h"
+#include "Util.h"
 
 ///////////////////////////////////////////////////////////////////  PRIVE
 //------------------------------------------------------------- Constantes
@@ -25,7 +25,7 @@ static int nbVoiture;
 static int bE1, bE2, bE3, bS;
 
 //------------------------------------------------------ Fonctions privées
-static void sendMessageE (TypeUsager typeUsager, long type, int boite)
+static void sendMessageE ( TypeUsager typeUsager, long type, int boite )
 // Mode d'emploi :
 //
 // Contrat :
@@ -36,12 +36,12 @@ static void sendMessageE (TypeUsager typeUsager, long type, int boite)
 	msgvoit msg;
 	msg.typeUsager = typeUsager;
 	msg.type = type;
-	msg.numvoit = nbVoiture%999+1;
+	msg.numvoit = nbVoiture%999 + 1;
 	nbVoiture++;
-	msgsnd (boite, (void *) &msg, sizeof(msgvoit), 0);
+	msgsnd ( boite, (void *) &msg, sizeof( msgvoit ), 0 );
 }//----- fin de sendMessage
 
-static void sendMessageS (int place, int boite)
+static void sendMessageS ( int place, int boite )
 // Mode d'emploi :
 //
 // Contrat :
@@ -57,15 +57,15 @@ static void sendMessageS (int place, int boite)
 //////////////////////////////////////////////////////////////////  PUBLIC
 //---------------------------------------------------- Fonctions publiques
 
-void GestionClavier(int balE1, int balE2, int balE3, int balS)
+void GestionClavier( int balE1, int balE2, int balE3, int balS )
 // Algorithme :
 //
 {
-	bE1=balE1;
-	bE2=balE2;
-	bE3=balE3;
-	bS=balS;
-	nbVoiture=0;
+	bE1 = balE1;
+	bE2 = balE2;
+	bE3 = balE3;
+	bS = balS;
+	nbVoiture = 0;
 	for(;;)
 	{
 		Menu();
@@ -74,7 +74,7 @@ void GestionClavier(int balE1, int balE2, int balE3, int balS)
 	
 } //----- Fin de GestionClavier
 
-void Commande(char code, unsigned int valeur)
+void Commande( char code, unsigned int valeur )
 // Algorithme :
 //
 {
@@ -88,11 +88,11 @@ void Commande(char code, unsigned int valeur)
 			switch(valeur)
 			{
 				case 1:
-					sendMessageE(PROF, PROF_BLAISE_PASCAL, bE1);
+					sendMessageE( PROF, PROF_BLAISE_PASCAL, bE1 );
 					break;
 					
 				case 2:
-					sendMessageE(PROF, ENTREE_GASTON_BERGER, bE3);
+					sendMessageE( PROF, ENTREE_GASTON_BERGER, bE3 );
 					break;
 			}
 			break;
@@ -101,17 +101,17 @@ void Commande(char code, unsigned int valeur)
 			switch(valeur)
 			{
 				case 1:
-					sendMessageE(AUTRE, AUTRE_BLAISE_PASCAL, bE2);
+					sendMessageE( AUTRE, AUTRE_BLAISE_PASCAL, bE2 );
 					break;
 					
 				case 2:
-					sendMessageE(AUTRE, ENTREE_GASTON_BERGER, bE3);
+					sendMessageE( AUTRE, ENTREE_GASTON_BERGER, bE3 );
 					break;
 			}
 			break;
 			
 		case 'S':
-			sendMessageS(valeur, bS);
+			sendMessageS( valeur, bS );
 			break;
 		
 			

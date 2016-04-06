@@ -25,7 +25,7 @@
 #include <cstring>//pour tester
 //------------------------------------------------------ Include personnel
 #include "Sortie.h"
-#include "Mere.h"
+#include "Util.h"
 #include <Outils.h>
 ///////////////////////////////////////////////////////////////////  PRIVE
 //------------------------------------------------------------- Constantes
@@ -53,8 +53,10 @@ static map<pid_t, msgvoit> voituriers;
 static struct sembuf reserver{0, -1, 0};
 static struct sembuf liberer{0, 1, 0};//operations sur mutex
 static int mutexMem;
-static int semAtt [3];
-//handler de mort
+static int semAtt[3];
+
+
+//handler de mort et de sortie
 static void handlerSig(int noSignal)
 {
 	if( noSignal == SIGUSR2 )
@@ -76,12 +78,12 @@ static void handlerSig(int noSignal)
 		pid_t pid = waitpid ( -1, &status, 0 );
 		msgvoit msg = voituriers[pid];
 		voituriers.erase ( pid );
-		AfficherSortie( msg.typeUsager, msg.numvoit, msg.heure, time(NULL));
-		while ( semop( mutexMem, &reserver, 1 ) == -1);
+		AfficherSortie( msg.typeUsager, msg.numvoit, msg.heure, time(NULL) );
+		while ( semop( mutexMem, &reserver, 1 ) == -1 );
 		int minInd = -1;
 		int min =10;
 		time_t minT;
-		for (int i=0; i<3; i++)
+		for ( int i=0; i<3; i++ )
 		{
 			time_t tempT = memSh->enAttente[i].heure;
 			int temp = memSh->enAttente[i].typeUsager;
@@ -95,7 +97,7 @@ static void handlerSig(int noSignal)
 		}
 		if ( minInd != -1 )
 		{
-			semop(semAtt [minInd], &liberer, 1);
+			semop( semAtt [minInd], &liberer, 1 );
 			Effacer ( (TypeZone) (10 + minInd) );
 			memSh->enAttente[minInd].typeUsager = AUCUN;
 		}
@@ -136,7 +138,7 @@ void Sortie ( int balS, int att1, int att2, int att3, int mem, int mutMem )
 		//Verification de l'etat des voituriers
 		int i = 0;
 		//Etape 1 attente de messages
-		while (msgrcv( balS, &msgRec, sizeof ( struct msgvoit ), 0,  0) == -1);
+		while ( msgrcv( balS, &msgRec, sizeof ( struct msgvoit ), 0,  0) == -1 );
 		//Utilisation de la memoire
 		while ( semop( mutexMem, &reserver, 1 ) == -1);
 		//on verifie qu'on fait bien sortir une voiture existante
